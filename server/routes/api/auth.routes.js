@@ -1,5 +1,5 @@
 const router = require('express').Router();
-пше const { User } = require('../../db/models');
+const { User } = require('../../db/models');
 const bcrypt = require('bcrypt');
 
 router.post('/registration', async(req,res) => {
@@ -28,3 +28,29 @@ router.post('/registration', async(req,res) => {
         res.status(500).console.log({message});
     }
 })
+
+router.post('/authorization', async (req,res) => {
+    try {
+        const {email, password} = req.body
+    if(password.trim() === '' || email.trim() === '') {
+        res.status(400).json({ message: 'повнимательнее, заполните все поля' })
+    }
+
+    const user = await User.findOne({ where: { email } });
+    if(user) {
+        const isCompare = await bcrypt.compare(password, user.password);
+        if (isCompare) {
+            res.status(200).json({ meesage: 'success' });
+            return;
+          }
+          res.status(400).json({ message: 'email или пароль не совпадают' });
+          return;
+        }
+        res.status(400).json({ message: 'email или пароль не совпадают' });
+
+    } catch ({message}) {
+        res.status(500).console.log({message});
+    }
+})
+
+module.exports = router;
