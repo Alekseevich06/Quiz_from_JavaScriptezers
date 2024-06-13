@@ -1,5 +1,6 @@
 const router = require('express').Router()
 
+const authRoutes = require('./api/auth.routes');
 
 
 
@@ -8,8 +9,7 @@ const router = require('express').Router()
 
 
 
-
-
+router.use('/auth', authRoutes);
 
 
 
