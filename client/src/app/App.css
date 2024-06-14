@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+body {
+  /* background-color: #551616; */
+  background-image: url(../../public/backgroundSpanch.jpg);
+  /* background-size: 101%; */
+  background-repeat: no-repeat;
+  margin: -25px 0 0 0;
+  font-family: 'Press Start 2P', cursive;
+  color: #af5151;
+}
+
+.patric{
+  padding-top: 2=00px;
+}
+
+.App {
+  margin-top: 40px;
+}
+
