@@ -1,0 +1,66 @@
+/* .input-bob {
+    background-color: #f7d154;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  
+  .button-bob {
+    background-color: #f7d154;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  .button-bob:hover {
+    background-color: #000;
+    color: #FFD800;
+  } */
+
+.input-bob {
+  background-color: #f7e4b3;
+  color: #646464;
+  border: 2px solid #646464;
+  border-radius: 15px;
+  padding: 15px;
+  font-size: 25px;
+  width: 50%;
+  margin-top: 150px;
+  cursor: pointer;
+  font-family: "Press Start 2P", cursive;
+}
+
+.button-bob {
+  background-color: #e4f9f5;
+  color: #3aafa9;
+  border: 2px solid #646464;
+  border-radius: 8px;
+  padding: 15px 30px;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 25px;
+  transition: transform 0.2s, background-color 0.2s;
+  cursor: pointer;
+  font-family: "Press Start 2P", cursive;
+}
+
+.button-bob:hover {
+  background-color: #646464;
+  color: #f7e4b3;
+}
+
+h1 {
+  margin-top: 150px;
+  color: hsl(0, 38%, 34%);
+}
+/* 
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    } */

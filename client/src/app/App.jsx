@@ -49,11 +49,11 @@ function App() {
 						path='/categories/:categoryId/question/:questionId'
 						element={<Question categories={categories} />}
 					/>
-					<Route path='*' />
+					<Route path="*" element={<h1>С ДР, Олег неМонгол! </h1>} />
 				</Routes>
 			</div>
 		</>
 	)
 }
 
-export default App
+export default App;
