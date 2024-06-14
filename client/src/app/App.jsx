@@ -1,7 +1,11 @@
+
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Category from '../page/category/Category'
 import request from '../services/axios'
+import NavBar from '../pages/NavBar/NavBar'
+import MainPage from '../pages/MainPage/MainPage'
+import './App.css'
 
 function App() {
   const [category, setCategory] = useState([])
@@ -21,10 +25,14 @@ function App() {
 
   return (
     <>
+    <NavBar />
+      <div className='App'>
     <Routes>
+      <Route path='/' element={<MainPage />} />
       <Route path='/categories' element={<Category category={category}/>}/>
       <Route path='*' />
     </Routes>
+  </div>
     </>
   )
 }
