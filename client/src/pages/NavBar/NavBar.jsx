@@ -9,7 +9,6 @@ const NavBar = ({ setUser, user }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 	useEffect(() => {
-		console.log(user);
 	}, [user])
 	const openModal = () => {
 		setIsModalOpen(true)
@@ -35,7 +34,7 @@ const NavBar = ({ setUser, user }) => {
 	}
 	return (
 		<nav className='spongebob-nav'>
-			<div className='nav-logo'>
+			<div className='nav-logo' onClick={()=>window.location.href = '/'}>
 				<img
 					className='logoImg'
 					src='pineapple-svgrepo-com.svg'
