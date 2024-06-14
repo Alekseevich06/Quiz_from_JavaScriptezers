@@ -11,7 +11,7 @@ body {
   /* background-color: #551616; */
   background-image: url(../../public/backgroundSpanch.jpg);
   /* background-size: 101%; */
-  /* background-repeat: no-repeat; */
+  background-repeat: no-repeat;
   margin: -25px 0 0 0;
   font-family: 'Press Start 2P', cursive;
   color: #af5151;

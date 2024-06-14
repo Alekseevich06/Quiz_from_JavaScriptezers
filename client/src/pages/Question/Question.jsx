@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import './Question.css'
 import request from '../../services/axios'
+
 
 function Question({ categories, setUser, user }) {
 	let { categoryId, questionId } = useParams()
@@ -36,42 +39,43 @@ function Question({ categories, setUser, user }) {
 
 	// console.log('categoryId', categoryId, 'questionId', questionId)
 
-	return (
-		<div>
-			{question && (
+  return (
+    <div className='container'>
+    {question && (
 				<>
-					<h2>{question && question.name}</h2>
-					<input
-						type='text'
-						value={inpAnsw}
-						placeholder='Ваш ответ'
-						onChange={e => setInpAnsw(e.target.value)}
-					></input>
-					<button type='submit' onClick={checkAnswers}>
-						Чек
-					</button>
+      <h1>{question && question.name}</h1>
+      <input
+	  className="input-bob"
+        type="text"
+        value={inpAnsw}
+        placeholder="Ваш ответ"
+        onChange={(e) => setInpAnsw(e.target.value)}
+      ></input>
+      <button className='button-bob' type="submit" onClick={checkAnswers}>
+        Чек
+      </button>
 
-					<h3>{rightAns}</h3>
-					{+questionId === 7 || +questionId === 15 ? (
-						<Link to={`/categories`}>
-							<button>На базу</button>
-						</Link>
-					) : (
-						<Link to={`/categories/${categoryId}/question/${+questionId + 1}`}>
-							<button
-								onClick={() => {
-									setRigthAnsw('')
-									setInpAnsw('')
-								}}
-							>
-								Далее
-							</button>
-						</Link>
-					)}
-				</>
+      <h3>{rightAns}</h3>
+      {+questionId === 7 || +questionId === 15 ? (
+        <Link to={`/categories`}>
+          <button className='button-bob'>На базу</button>
+        </Link>
+      ) : (
+        <Link to={`/categories/${categoryId}/question/${+questionId + 1}`}>
+          <button className='button-bob'
+            onClick={() => {
+              setRigthAnsw("");
+              setInpAnsw("");
+            }}
+          >
+            Далее
+          </button>
+        </Link>
+      )}
+      </>
 			)}
-		</div>
-	)
+    </div>
+  );
 }
 
 export default Question

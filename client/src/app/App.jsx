@@ -51,11 +51,11 @@ function App() {
 							<Question categories={categories} user={user} setUser={setUser} />
 						}
 					/>
-					<Route path='*' />
+					<Route path="*" element={<h1>С ДР, Олег неМонгол! </h1>} />
 				</Routes>
 			</div>
 		</>
 	)
 }
 
-export default App
+export default App;
