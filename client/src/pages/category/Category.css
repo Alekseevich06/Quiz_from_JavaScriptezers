@@ -1,0 +1,11 @@
+.category-item {
+    padding: 10px;
+    border: 1px solid #d81f1f;
+    border-radius: 5px;
+    margin: 10px;
+    }
+    
+.category-item img {
+    max-width: 600px;
+    height: auto;
+    }
