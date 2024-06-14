@@ -1,14 +1,13 @@
 import React from'react';
 import CategoryItem from './CategoryItem';
-function Category({ category }) {
-    console.log(2);
+function Category({ categories }) {
   return (
       <div>
         <h1>Category</h1>
         <div>
-            {category &&
-            category.map(categor => (
-                <CategoryItem categor={categor} key={categor.id}/>
+            {categories &&
+            categories.map(category => (
+                <CategoryItem category={category} key={category.id}/>
             ))}
         </div>
         </div>

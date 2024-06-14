@@ -1,26 +1,25 @@
 
 import { useEffect, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Category from '../page/category/Category'
+import Category from '../pages/category/Category'
 import request from '../services/axios'
 import NavBar from '../pages/NavBar/NavBar'
 import MainPage from '../pages/MainPage/MainPage'
 import './App.css'
+import Question from '../pages/Question/Question'
 
 function App() {
-  const [category, setCategory] = useState([])
+  const [categories, setCategories] = useState([])
 
-  const oxiosCategory = async () => {
+  const axiosCategory = async () => {
     const {data} = await request.get('/categories')
-    console.log(1);
     // console.log(data.categories);
     if(data.message === 'success') {
-      setCategory(data.categories)
-      console.log(category);
+      setCategories(data.categories)
     }
   }
   useEffect(() => {
-    oxiosCategory()
+    axiosCategory()
   }, [])
 
   return (
@@ -29,7 +28,8 @@ function App() {
       <div className='App'>
     <Routes>
       <Route path='/' element={<MainPage />} />
-      <Route path='/categories' element={<Category category={category}/>}/>
+      <Route path='/categories' element={<Category categories={categories}/>}/>
+      <Route path='/categories/:categoryId/question/:questionId' element={<Question categories={categories}/>}/>
       <Route path='*' />
     </Routes>
   </div>
