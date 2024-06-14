@@ -59,4 +59,21 @@ router.get('/logout', async (req, res) => {
 	res.clearCookie('refreshToken').json({ message: 'OK' })
 })
 
+router.patch('/:userId', async (req, res) => {
+	try {
+		const { score } = req.body
+		const { userId } = req.params
+		const result = await User.update({ score }, { where: { id: userId } })
+		if (result[0] > 0) {
+			const user = await User.findOne({ where: { id: userId } })
+			// завершаем ответ
+			res.status(200).json({ message: 'success', user })
+			return
+		}
+		res.status(400).json({ message: 'Не твоя, вот и бесишься' })
+	} catch ({ message }) {
+		console.log(message)
+	}
+})
+
 module.exports = router
