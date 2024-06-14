@@ -75,3 +75,6 @@ const NavBar = ({ setUser, user }) => {
 }
 
 export default NavBar
+
+
+dfgdfd
