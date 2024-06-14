@@ -1,56 +1,62 @@
-const router = require('express').Router();
-const { User } = require('../../db/models');
-const bcrypt = require('bcrypt');
+const router = require('express').Router()
+const { User } = require('../../db/models')
+const bcrypt = require('bcrypt')
+const generateTokens = require('../../utils/generateTokens')
+const cookiesConfig = require('../../configs/cookiesConfig')
 
-router.post('/registration', async(req,res) => {
-    try {
-        const {name, password, email} = req.body
-        if(name.trim() === '' || password.trim() === '' || email.trim() === '') {
-            res.status(400).json({ message: 'повнимательнее, заполните все поля' })
-      return
-        }
-        const getEmail = await User.findOne({where: {email}})
-        if (getEmail) {
-            res.status(400).json({ message: 'Такой пользователь уже зарегестрирован' });
-            return;
-          }
-          const hashPassword = await bcrypt.hash(password, 10);
-          
-          const user = await User.create({ name, email, password: hashPassword })
-          
-          if (user) {
-            res.status(201).json({ message: 'success', user });
-            return;
-          }
-
-          res.status(400).json({ message: 'Что-то пошло не так, попробуй еще разок' });
-    } catch ({message}) {
-        res.status(500).console.log({message});
-    }
+router.post('/registration', async (req, res) => {
+	const { name, email, password, score = 0 } = req.body
+	console.log(req.body)
+	const user = await User.findAll({
+		where: { email },
+	})
+	if (!user.length) {
+		try {
+			const hash = await bcrypt.hash(password, 10)
+			const user = await User.create({
+				name,
+				email,
+				password: hash,
+				score,
+			})
+			const { accessToken, refreshToken } = generateTokens({ user })
+			res
+				.cookie('refreshToken', refreshToken, cookiesConfig)
+				.json({ accessToken, user })
+		} catch (error) {
+			res.status(500).json({ message: error.message })
+		}
+	} else {
+		res.send({ message: 'Данный email уже зарегистрирован' })
+	}
 })
 
-router.post('/authorization', async (req,res) => {
-    try {
-        const {email, password} = req.body
-    if(password.trim() === '' || email.trim() === '') {
-        res.status(400).json({ message: 'повнимательнее, заполните все поля' })
-    }
+router.post('/authorization', async (req, res) => {
+	try {
+		const { email, password } = req.body
+		const targetUser = await User.findOne({ where: { email } })
+		if (!targetUser)
+			return res.status(401).json({ message: 'Неверный email или пароль' })
 
-    const user = await User.findOne({ where: { email } });
-    if(user) {
-        const isCompare = await bcrypt.compare(password, user.password);
-        if (isCompare) {
-            res.status(200).json({ meesage: 'success' });
-            return;
-          }
-          res.status(400).json({ message: 'email или пароль не совпадают' });
-          return;
-        }
-        res.status(400).json({ message: 'email или пароль не совпадают' });
+		const isValid = await bcrypt.compare(password, targetUser.password)
+		if (!isValid)
+			return res.status(401).json({ message: 'Неверный email или пароль' })
 
-    } catch ({message}) {
-        res.status(500).console.log({message});
-    }
+		const user = targetUser.get()
+		delete user.password
+
+		const { accessToken, refreshToken } = generateTokens({ user })
+
+		res
+			.cookie('refreshToken', refreshToken, cookiesConfig)
+			.json({ accessToken, user })
+	} catch (error) {
+		res.status(500).json({ message: error.message })
+	}
 })
 
-module.exports = router;
+router.get('/logout', async (req, res) => {
+	res.clearCookie('refreshToken').json({ message: 'OK' })
+})
+
+module.exports = router
