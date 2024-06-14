@@ -22,7 +22,7 @@ function App() {
 			await request.get('/token/refresh').then(data => {
 				console.log(data)
 				const { accessToken, user } = data.data
-				setUser(user)
+				setUser(() => user)
 				SetAccessToken(accessToken)
 			})
 		} catch ({ message }) {
@@ -40,14 +40,16 @@ function App() {
 			<NavBar user={user} setUser={setUser} />
 			<div className='App'>
 				<Routes>
-					<Route path='/' element={<MainPage user={user}/>} />
+					<Route path='/' element={<MainPage user={user} />} />
 					<Route
 						path='/categories'
 						element={<Category categories={categories} />}
 					/>
 					<Route
 						path='/categories/:categoryId/question/:questionId'
-						element={<Question categories={categories} />}
+						element={
+							<Question categories={categories} user={user} setUser={setUser} />
+						}
 					/>
 					<Route path="*" element={<h1>С ДР, Олег неМонгол! </h1>} />
 				</Routes>

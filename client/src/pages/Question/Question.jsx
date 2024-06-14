@@ -1,39 +1,48 @@
+
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import './Question.css'
+import request from '../../services/axios'
 
 
-function Question({ categories }) {
-  let { categoryId, questionId } = useParams();
-  const [question, SetQuestion] = useState({});
-  const [inpAnsw, setInpAnsw] = useState("");
-  const [rightAns, setRigthAnsw] = useState("");
+function Question({ categories, setUser, user }) {
+	let { categoryId, questionId } = useParams()
+	const [question, SetQuestion] = useState(null)
+	const [inpAnsw, setInpAnsw] = useState('')
+	const [rightAns, setRigthAnsw] = useState('')
 
-  useEffect(() => {
-    for (let category of categories) {
-      if (category.id === +categoryId) {
-        for (let question of category.Questions) {
-          if (+question.id === +questionId) {
-            SetQuestion(question);
-          }
-        }
-      }
-    }
-  }, [questionId, categoryId]);
+	useEffect(() => {
+		for (let category of categories) {
+			if (category.id === +categoryId) {
+				for (let question of category.Questions) {
+					if (+question.id === +questionId) {
+						SetQuestion(question)
+					}
+				}
+			}
+		}
+	}, [questionId, categoryId, categories])
 
-  const checkAnswers = () => {
-    if (inpAnsw.toLowerCase().trim() === question.answer.toLowerCase().trim()) {
-      setRigthAnsw("Правильно!");
-    } else {
-      setRigthAnsw(`Так не надо! Надо вот так: ${question.answer}`);
-    }
-    setInpAnsw("");
-  };
+	const checkAnswers = async () => {
+		let score = user.score + 10
+		if (inpAnsw.toLowerCase().trim() === question.answer.toLowerCase().trim()) {
+			setRigthAnsw('Правильно!')
+			await request.patch(`/auth/${user.id}`, { score }).then(data => {
+				// console.log(data.data.user)
+				setUser(() => data.data.user)
+			})
+		} else {
+			setRigthAnsw(`Так не надо! Надо вот так: ${question.answer}`)
+		}
+		setInpAnsw('')
+	}
 
-  // console.log('categoryId', categoryId, 'questionId', questionId)
+	// console.log('categoryId', categoryId, 'questionId', questionId)
 
   return (
     <div className='container'>
+    {question && (
+				<>
       <h1>{question && question.name}</h1>
       <input
 	  className="input-bob"
@@ -63,8 +72,10 @@ function Question({ categories }) {
           </button>
         </Link>
       )}
+      </>
+			)}
     </div>
   );
 }
 
-export default Question;
+export default Question

@@ -9,6 +9,7 @@ const NavBar = ({ setUser, user }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 	useEffect(() => {
+		console.log(user);
 	}, [user])
 	const openModal = () => {
 		setIsModalOpen(true)
