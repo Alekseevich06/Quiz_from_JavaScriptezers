@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const request = axion.create({
+const request = axios.create({
     baseURL: '/api',
     headers: {'Content-Type': 'application/json'}
 })
