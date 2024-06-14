@@ -3,7 +3,7 @@ const { Category, Question } = require("../../db/models");
 
 router.get("/", async (req, res) => {
   try {
-    const categories = await Category.findAll();
+    const categories = await Category.findAll({include: Question});
     console.log(categories);
     res.status(200).json({ message: "success", categories });
   } catch ({ message }) {
